@@ -1,0 +1,99 @@
+{{#layout}}
+    <h3>일반게시판</h3>
+    <form id="frm1" name="frm1" method="post">
+    <input type="hidden" id="CurPage" name="CurPage">
+    <input type="hidden" id="NextStepNo" name="NextStepNo" value="{{{NextStepNo}}}">
+    <table style="width:1000px">
+    <tr style="height:30px;font-weight:bold;font-size:10pt;text-align:center">
+        <td style="width:80px">글번호</td>
+        <td style="width:600px">제목</td>
+        <td style="width:120px">글쓴이</td>
+        <td style="width:70px">조회수</td>
+        <td style="width:130px">등록일시</td>
+    </tr>
+    {{^ BbsInfoList}}
+    <tr style="height:30px;font-size:10pt">
+        <td style="text-align:center;padding:0 0 0 5px" colspan="5">데이터가 존재하지 않습니다.</td>
+    </tr>
+    {{/BbsInfoList}}
+
+    {{#BbsInfoList}}
+    <tr style="height:30px;font-size:10pt">
+        <td style="width:80px;padding:0 0 0 5px">{{No}}</td>
+        <td style="width:600px;padding:0 0 0 5px">{{Subject}}&nbsp;&nbsp;<b>[{{CommentCnt}}]</b></td>
+        <td style="width:120px;text-align:center">{{Name}}</td>
+        <td style="width:70px;text-align:center">{{Hit}}</td>
+        <td style="width:130px;text-align:center">{{RegDate}}</td>
+    </tr>
+    {{/BbsInfoList}}
+    </table>
+    <div style="width:1000px;text-align:center">
+    <ul class="pagination">
+    {{{PagingHtml}}}
+    </ul>
+    </div>
+    <div class="form-inline" style="width:1000px;text-align:center">
+        <select id="SearchType" name="SearchType" style="width:100px" class="form-control input-sm">
+            {{#SearchOptions}}
+                <option value="{{Value}}" {{#Selected}}selected="selected"{{/Selected}}>{{Text}}</option>
+            {{/SearchOptions}}
+        </select>
+        <input type="text" id="SearchString" name="SearchString" class="form-control input-sm" value="{{SearchString}}">
+        <input type="button" value="   검색   " onclick="GoSearchList()" class="btn btn-primary btn-sm">
+        <input type="button" value="   목록   " onclick="GoList()" class="btn btn-primary btn-sm">
+    </div>
+    </form>
+{{/layout}}
+<script type="text/javascript">
+GoPage = function(nPage, nNextStepNo)
+{
+    var frm1;
+
+    frm1 = document.frm1;
+
+    frm1.CurPage.value = nPage;
+
+    if( typeof(nNextStepNo) != 'undefined' )
+        frm1.NextStepNo.value = nNextStepNo;
+
+    frm1.action = "/bbs/list";
+    frm1.submit();
+}
+
+GoList = function()
+{
+    var frm1;
+
+    frm1 = document.frm1;
+
+    frm1.CurPage.value = 1;
+    frm1.NextStepNo.value = 0;
+    frm1.SearchType.selectedIndex = 0;
+    frm1.SearchString.value = "";
+
+    frm1.action = "/bbs/list";
+    frm1.submit();
+}
+
+GoSearchList = function()
+{
+    var SearchType, SearchString;
+
+    SearchType = $("#SearchType").val();
+    if( SearchType == "" )
+    {
+        alert("검색타입을 선택하세요.");
+        return;
+    }
+
+    SearchString = $("#SearchString").val();
+    if( SearchString == "" )
+    {
+        alert("검색어를 입력하세요.");
+        return;
+    }
+
+    frm1.action = "/bbs/list";
+    frm1.submit();
+}
+</script>

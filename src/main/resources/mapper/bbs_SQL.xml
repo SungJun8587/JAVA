@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dev.BbsMVC.Dao.BbsMapper">
+    <resultMap id="BbsInfoBeanMap" type="BbsInfoBean">
+      <result property="No" column="No"/>
+      <result property="Subject" column="Subject"/>
+      <result property="MbIdx" column="MbIdx"/>
+      <result property="Name" column="Name"/>
+      <result property="Hit" column="Hit"/>
+      <result property="Recom" column="Recom"/>
+      <result property="UnRecom" column="UnRecom"/>
+      <result property="CommentCnt" column="CommentCnt"/>
+      <result property="RegDate" column="RegDate"/>
+    </resultMap>
+
+    <select id="GetBbsCount" resultType="long">
+        SELECT COUNT(*) FROM tblb_Bbs;
+    </select>
+
+    <select id="BbsGet" parameterType="long" resultMap="BbsInfoBeanMap">
+        call BbsGet
+            (
+                #{No, mode=IN, jdbcType=BIGINT, javaType=long}
+            )
+    </select>
+
+    <select id="BbsPagingList" statementType="CALLABLE" parameterType="HashMap" resultMap="BbsInfoBeanMap">
+       call BbsPagingTest
+           (
+               #{CurPage, mode=IN, jdbcType=INTEGER, javaType=int},
+               #{NextStepNo, mode=IN, jdbcType=BIGINT, javaType=long},
+               #{SearchTerm, mode=IN, jdbcType=INTEGER, javaType=int},
+               #{SearchType, mode=IN, jdbcType=VARCHAR, javaType=String},
+               #{SearchString, mode=IN, jdbcType=VARCHAR, javaType=String},
+               #{PageSize, mode=IN, jdbcType=INTEGER, javaType=int},
+               #{OutPrevStepNo, mode=OUT, jdbcType=BIGINT, javaType=long},
+               #{OutNextStepNo, mode=OUT, jdbcType=BIGINT, javaType=long},
+               #{OutTotBbsCount, mode=OUT, jdbcType=BIGINT, javaType=long}
+           )
+    </select>
+
+    <select id="BbsProcess" statementType="CALLABLE" parameterType="HashMap">
+        call BbsProcess
+        (
+            #{ProMethod, mode=IN, jdbcType=VARCHAR, javaType=String},
+            #{No, mode=IN, jdbcType=BIGINT, javaType=long},
+            #{Subject, mode=IN, jdbcType=VARCHAR, javaType=String},
+            #{Content, mode=IN, jdbcType=VARCHAR, javaType=String},
+            #{MbIdx, mode=IN, jdbcType=BIGINT, javaType=long},
+            #{Name, mode=IN, jdbcType=VARCHAR, javaType=String},
+            #{IP, mode=IN, jdbcType=VARCHAR, javaType=String},
+            #{HtmlFlag, mode=IN, jdbcType=BIT, javaType=boolean},
+            #{OutNo, mode=OUT, jdbcType=BIGINT, javaType=long},
+            #{RetVal, mode=OUT, jdbcType=INTEGER, javaType=int}
+        )
+    </select>
+</mapper>

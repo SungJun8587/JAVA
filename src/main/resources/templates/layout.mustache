@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="No-Cache">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{{layout.title}}}</title>
+<link rel='stylesheet' href='/webjars/bootstrap/3.4.0/css/bootstrap.min.css'>
+<script src="/webjars/jquery/3.7.0/jquery.min.js"></script> 
+<style type="text/css">
+table {
+    border-collapse:separate;
+    border-spacing:1px;
+    margin:0;
+    padding:0;
+}
+
+table, th, td {
+    border:1px solid gray;
+    padding:1px;
+    word-break:break-all;
+}
+
+h1 {
+    margin:10px 0 5px 0;
+}
+</style>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">SpringBoot MVC</a>
+    </div>
+</div>
+
+{{{layout.body}}}
+
+<div style="margin:60px 0 0 10px">
+    <div style="clear:both">
+        <hr />
+        <footer>
+            <p>&copy; {{{layout.date}}}. SpringBoot MVC Application</p>
+        </footer>
+    </div>
+</div>
+</body>
+</html>
+<script src="/webjars/bootstrap/3.4.0/js/bootstrap.min.js"></script> 
